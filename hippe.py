@@ -30,6 +30,12 @@ import tkinter as tk
 from tkinter import filedialog
 import os
 import win32gui, win32con
+import sys
+
+debug_mode=False
+
+if sys.argv.index("--debug"):
+    debug_mode=True
 
 root = tk.Tk()
 root.withdraw()
@@ -197,8 +203,17 @@ def OnExit():
 def SetWindowIcon(path):
     pygame.display.set_icon(pygame.image.load(path))
 
+def GetDefualtFont():
+    return pygame.font.get_default_font()
+
+def GetFonts():
+    return pygame.font.get_fonts()
+
 def Drawing():
     return running
+
+def FontPath(font):
+    return pygame.font.match_font(font)
 
 def Exit():
     pygame.quit()
@@ -217,6 +232,9 @@ def Line(color,Vector_start,Vector_end,width):
     pygame.draw.line(screen,color,(Vector_start.x,Vector_start.y),(Vector_end.x,Vector_end.y),width)
 
 def Render():
+    if debug_mode:
+        Text("FPS: "+GetFPS(),Vector(10,10),BLACK,0,pygame.font.get_default_font(),35,True,False)
+        Text("FPS: "+GetFPS(),Vector(10,10),GRAY,0,pygame.font.get_default_font(),34,True,False)
     pygame.display.flip()
     pygame.display.update()
 
